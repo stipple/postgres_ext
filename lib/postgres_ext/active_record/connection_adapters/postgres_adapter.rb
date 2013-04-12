@@ -165,6 +165,8 @@ module ActiveRecord
           :macaddr
         when 'numrange'
           :numeric_range
+        when 'daterange'
+          :daterange
         else
           simplified_type_without_extended_types field_type
         end
@@ -177,7 +179,7 @@ module ActiveRecord
       class UnsupportedFeature < Exception; end
 
       EXTENDED_TYPES = { :inet => {:name => 'inet'}, :cidr => {:name => 'cidr'}, :macaddr => {:name => 'macaddr'},
-                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numeric_range => { :name => 'numrange' } }
+                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numeric_range => { :name => 'numrange' }, :daterange => {:name => 'daterange'}  }
 
       class ColumnDefinition < ActiveRecord::ConnectionAdapters::ColumnDefinition
         attr_accessor :array
