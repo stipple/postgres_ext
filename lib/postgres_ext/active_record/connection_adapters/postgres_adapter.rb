@@ -44,7 +44,7 @@ module ActiveRecord
         else
           case type
           when :inet, :cidr   then klass.string_to_cidr_address(value)
-          when :numeric_range then klass.string_to_numeric_range(value)
+          when :numrange then klass.string_to_numeric_range(value)
           else
             type_cast_without_extended_types(value)
           end
@@ -84,7 +84,7 @@ module ActiveRecord
         else
           case type
           when :inet, :cidr   then "#{klass}.string_to_cidr_address(#{var_name})"
-          when :numeric_range then "#{klass}.string_to_numeric_range(#{var_name})"
+          when :numrange then "#{klass}.string_to_numeric_range(#{var_name})"
           else
             type_cast_code_without_extended_types(var_name)
           end
@@ -164,7 +164,7 @@ module ActiveRecord
         when 'macaddr'
           :macaddr
         when 'numrange'
-          :numeric_range
+          :numrange
         when 'daterange'
           :daterange
         else
@@ -179,7 +179,7 @@ module ActiveRecord
       class UnsupportedFeature < Exception; end
 
       EXTENDED_TYPES = { :inet => {:name => 'inet'}, :cidr => {:name => 'cidr'}, :macaddr => {:name => 'macaddr'},
-                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numeric_range => { :name => 'numrange' }, :daterange => {:name => 'daterange'}  }
+                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numrange => { :name => 'numrange' }, :daterange => {:name => 'daterange'}  }
 
       class ColumnDefinition < ActiveRecord::ConnectionAdapters::ColumnDefinition
         attr_accessor :array
@@ -326,7 +326,7 @@ module ActiveRecord
             type_cast_without_extended_types(value, column)
           end
         when Float
-          if column.type == :numeric_range && value.abs == (1.0/0.0)
+          if column.type == :numrange && value.abs == (1.0/0.0)
             ''
           else
             type_cast_without_extended_types(value, column)
