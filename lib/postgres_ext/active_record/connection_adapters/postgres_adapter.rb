@@ -52,7 +52,6 @@ module ActiveRecord
       end
       alias_method_chain :type_cast, :extended_types
 
-
       def string_to_array(value)
         if Array === value
           value
@@ -163,6 +162,10 @@ module ActiveRecord
           :cidr
         when 'macaddr'
           :macaddr
+        when 'int4range'
+          :int4range
+        when 'int8range'
+          :int8range
         when 'numrange'
           :numrange
         when 'daterange'
@@ -179,7 +182,8 @@ module ActiveRecord
       class UnsupportedFeature < Exception; end
 
       EXTENDED_TYPES = { :inet => {:name => 'inet'}, :cidr => {:name => 'cidr'}, :macaddr => {:name => 'macaddr'},
-                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numrange => { :name => 'numrange' }, :daterange => {:name => 'daterange'}  }
+                         :uuid => {:name => 'uuid'}, :citext => {:name => 'citext'}, :numrange => { :name => 'numrange' },
+                         :daterange => {:name => 'daterange'}, :int4range => {:name => 'int4range'}, :int8range => {:name => 'int8range'} }
 
       class ColumnDefinition < ActiveRecord::ConnectionAdapters::ColumnDefinition
         attr_accessor :array
